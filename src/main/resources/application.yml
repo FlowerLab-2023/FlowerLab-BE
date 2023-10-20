@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/color_project?useSSL=true&useUnicode=true&serverTimezone=Asia/Seoul
+    username: admin
+    password: 12345678
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        #show_sql: true
+        format_sql: true
+        default_batch_fetch_size: 100
+        #    open-in-view: false
+        dialect: org.hibernate.dialect.MySQLDialect
+
+logging.level:
+  org.hibernate.SQL: debug
+  org.hibernate.type: trace
