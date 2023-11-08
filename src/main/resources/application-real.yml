@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    group:
+      real:
+        - "real-db"
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect

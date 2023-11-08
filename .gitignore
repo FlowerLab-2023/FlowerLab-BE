@@ -36,6 +36,5 @@ out/
 ### VS Code ###
 .vscode/
 
-### application-real.yml ###
-application-real.yml
+### application-real-db.yml ###
 application-real-db.yml
