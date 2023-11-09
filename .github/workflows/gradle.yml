@@ -39,7 +39,7 @@ jobs:
         if: contains(github.ref, 'main')
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build -f Dockerfile-dev -t ${{ secrets.DOCKER_USERNAME }}/flowerlab .
+          docker build -f Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/flowerlab .
           docker push ${{ secrets.DOCKER_USERNAME }}/flowerlab
 
       # deploy to production
@@ -49,12 +49,12 @@ jobs:
         if: contains(github.ref, 'main')
         with:
           host: ${{ secrets.HOST_PROD }}
-          username: ubuntu
+          username: ec2-user
           key: ${{ secrets.PRIVATE_KEY }}
           envs: GITHUB_SHA
           script: |
             sudo docker ps
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/flowerlab
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/flowerlab:latest
             
             sudo docker stop flowerlab_container || true
             sudo docker rm flowerlab_container || true
