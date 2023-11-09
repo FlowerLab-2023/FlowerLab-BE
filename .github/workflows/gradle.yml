@@ -53,16 +53,15 @@ jobs:
           key: ${{ secrets.PRIVATE_KEY }}
           envs: GITHUB_SHA
           script: |
-            sudo docker ps
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/flowerlab:latest
+            if [ $(sudo docker ps -q -f name=flowerlab_container) ]; then
+              sudo docker stop flowerlab_container
+              sudo docker rm flowerlab_container
+            fi
             
-            sudo docker stop flowerlab_container || true
-            sudo docker rm flowerlab_container || true
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/flowerlab:latest
             sudo docker run -d -p 8080:8080 --name flowerlab_container ${{ secrets.DOCKER_USERNAME }}/flowerlab:latest
             
-            sudo docker exec -it flowerlab_container /bin/sh
-            mkdir -p /app
-            exit
-            sudo docker cp /home/ec2-user/app/flowerlab/flowerlab-model flowerlab:/app/flowerlab-model
+            sudo docker exec flowerlab_container mkdir -p /app
+            sudo docker cp /home/ec2-user/app/flowerlab/flowerlab-model flowerlab_container:/app/flowerlab-model
             
             sudo docker image prune -f
